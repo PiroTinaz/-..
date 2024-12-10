@@ -1,0 +1,103 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>運転手金額計算ツール</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+    h1 {
+      text-align: center;
+      color: #333;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+    input[type="number"] {
+      width: 100%;
+      padding: 8px;
+      box-sizing: border-box;
+    }
+    button {
+      width: 100%;
+      padding: 10px;
+      background-color: #007BFF;
+      color: white;
+      border: none;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    .result {
+      margin-top: 20px;
+      padding: 10px;
+      background: #f9f9f9;
+      border: 1px solid #ccc;
+    }
+    .result-area {
+      margin-top: 10px;
+      padding: 15px;
+      background-color: #e8f5e9;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h1>運転手金額計算ツール</h1>
+  <div class="form-group">
+    <label for="totalAmount">合計金額 (円):</label>
+    <input type="number" id="totalAmount" placeholder="例: 1000">
+  </div>
+  <div class="form-group">
+    <label for="householdCount">運転手家庭を除く世帯数 (n):</label>
+    <input type="number" id="householdCount" placeholder="例: 3">
+  </div>
+  <button id="calculateButton">計算する</button>
+  <div id="result" class="result" style="display: none;">
+    <h2>計算結果</h2>
+    <div class="result-area">
+      <strong>運転手の金額:</strong>
+      <p id="driverAmount">-</p>
+    </div>
+    <div class="result-area">
+      <strong>乗せてもらう1世帯の金額:</strong>
+      <p id="householdAmount">-</p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById("calculateButton").addEventListener("click", function () {
+      const totalAmount = parseFloat(document.getElementById("totalAmount").value);
+      const n = parseFloat(document.getElementById("householdCount").value);
+
+      if (isNaN(totalAmount) || isNaN(n) || totalAmount <= 0 || n < 0) {
+        alert("正しい値を入力してください。");
+        return;
+      }
+
+      // 計算
+      const driverAmount = totalAmount / (2 * n + 1);
+      const householdAmount = totalAmount / (n + 0.5);
+
+      // 結果を表示
+      document.getElementById("driverAmount").textContent = `${driverAmount.toFixed(2)} 円`;
+      document.getElementById("householdAmount").textContent = `${householdAmount.toFixed(2)} 円`;
+
+      document.getElementById("result").style.display = "block";
+    });
+  </script>
+</body>
+</html>
